@@ -10,7 +10,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--log_dir', default='logs', type=str, help='log save dir')
+parser.add_argument('--log_dir', default='/home/yang/study/experiment_result/logs', type=str, help='log save dir')
 parser.add_argument('--is_train', default=False, type=bool, help='train?')
 
 cfg = parser.parse_args()

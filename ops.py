@@ -74,17 +74,29 @@ def m4_linear(input_, output, active_function=None, norm=None, get_vars_name=Fal
         else:
             return output_
 
-def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
+def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsample=False,
                    padding = "SAME", get_vars_name=False, active_func=None,norm=None,
                    is_trainable=True, stddev = 0.02, name = 'resblock'):
     with tf.variable_scope(name) as scope:
 
-        x = m4_conv_layers(input_, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
+        if is_downsample:
+            x = m4_conv_layers(input_, fiters, k_h=k_h, k_w=k_w, s_h=2, s_w=2,
+                               padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='conv_1')
+            x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=1, s_w=1,
+                               padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='conv_2')
+            input_ = m4_conv_layers(input_, fiters, k_h=1, k_w=1, s_h=2, s_w=2,
+                               padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='main_branch_downsample')
+
+        else:
+            x = m4_conv_layers(input_, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
                        padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
                        is_trainable=is_trainable, stddev=0.02, name='conv_1')
-        x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
-                           padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
-                           is_trainable=is_trainable, stddev=0.02, name='conv_2')
+            x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
+                               padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='conv_2')
         x = x + input_
 
         x = m4_active_function(x, active_function=active_func)
