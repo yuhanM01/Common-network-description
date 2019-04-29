@@ -7,6 +7,10 @@ class Vgg16:
         self.is_train = cfg.is_train
 
     def build_model(self, x):
+        '''
+        :param x: Input image
+        :return: output for plus softmax
+        '''
         self.conv1_1 = m4_conv_layers(x, 64, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
                    padding = "SAME", get_vars_name=False, active_func='relu',norm=None,
                    is_trainable=self.is_train, stddev = 0.02, name = 'conv1_1')
@@ -81,10 +85,15 @@ class Vgg16:
         return self.fc8
 
 class Vgg19:
+
     def __init__(self, cfg):
         self.is_train = cfg.is_train
 
     def build_model(self, x):
+        '''
+        :param x: Input image
+        :return: output for plus softmax
+        '''
         self.conv1_1 = m4_conv_layers(x, 64, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
                    padding = "SAME", get_vars_name=False, active_func='relu',norm=None,
                    is_trainable=self.is_train, stddev = 0.02, name = 'conv1_1')
@@ -217,3 +226,9 @@ class ResNet18:
                         padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
                         is_trainable=self.is_train, stddev=0.02, name='resblock5_' + str(i))
 
+        x = m4_average_pool(x, ks=7, stride=7, padding='SAME', name='average_pool')
+        _, w, h, nc = x.get_shape().as_list()
+        x = tf.reshape(x, [-1, w * h * nc])
+        self.fc6 = m4_linear(x, 1000, active_function=None, norm=None, get_vars_name=False,
+                             is_trainable=self.is_train, stddev=0.02, name='fc6')
+        return self.fc6

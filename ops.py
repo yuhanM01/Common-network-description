@@ -59,6 +59,9 @@ def m4_conv_layers(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
 def m4_max_pool(input_, ks=2, stride=2, padding='SAME', name='max_pool'):
     return tf.nn.max_pool(input_, ksize=[1, ks, ks, 1], strides=[1, stride, stride, 1], padding=padding, name=name)
 
+def m4_average_pool(input_, ks=2, stride=2, padding='SAME', name='average_pool'):
+    return tf.nn.avg_pool(input_, ksize=[1, ks, ks, 1], strides=[1, stride, stride, 1], padding=padding, name=name)
+
 def m4_linear(input_, output, active_function=None, norm=None, get_vars_name=False, is_trainable=True,
               stddev=0.02, name='fc'):
     with tf.variable_scope(name) as scope:
@@ -66,8 +69,8 @@ def m4_linear(input_, output, active_function=None, norm=None, get_vars_name=Fal
         w = tf.get_variable('w', [input_shape[-1], output], initializer=tf.random_normal_initializer(stddev=stddev))
         biases = tf.get_variable('biases', [output], initializer=tf.constant_initializer(0.0))
         conn = tf.matmul(input_, w) + biases
-        output_ = m4_norm_func(output_, is_trainable, name=norm)
-        output_ = m4_active_function(conn, active_function=active_function)
+        output_ = m4_norm_func(conn, is_trainable, name=norm)
+        output_ = m4_active_function(output_, active_function=active_function)
         if get_vars_name:
             vars = tf.contrib.framework.get_variables(scope)
             return output_, vars
