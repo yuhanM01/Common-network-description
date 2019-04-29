@@ -108,3 +108,44 @@ def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsampl
             return x, vars
         else:
             return x
+
+def m4_bottle_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsample=False,
+                   padding = "SAME", get_vars_name=False, active_func=None,norm=None,
+                   is_trainable=True, stddev = 0.02, name = 'm4_bottle_resblock'):
+    with tf.variable_scope(name) as scope:
+
+        if is_downsample:
+            x = m4_conv_layers(input_, fiters, k_h=1, k_w=1, s_h=2, s_w=2,
+                               padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='conv_1')
+            x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
+                               padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='conv_2')
+            x = m4_conv_layers(x, fiters * 4, k_h=1, k_w=1, s_h=s_h, s_w=s_w,
+                               padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='conv_3')
+            input_ = m4_conv_layers(input_, fiters * 4, k_h=1, k_w=1, s_h=2, s_w=2,
+                               padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='main_branch_downsample')
+
+        else:
+            x = m4_conv_layers(input_, fiters, k_h=1, k_w=1, s_h=s_h, s_w=s_w,
+                       padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
+                       is_trainable=is_trainable, stddev=0.02, name='conv_1')
+            x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
+                               padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='conv_2')
+            x = m4_conv_layers(x, fiters * 4, k_h=1, k_w=1, s_h=s_h, s_w=s_w,
+                               padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
+                               is_trainable=is_trainable, stddev=0.02, name='conv_3')
+            input_ = m4_conv_layers(input_, fiters * 4, k_h=1, k_w=1, s_h=1, s_w=1,
+                                    padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
+                                    is_trainable=is_trainable, stddev=0.02, name='main_branch_keepdim')
+        x = x + input_
+
+        x = m4_active_function(x, active_function=active_func)
+        if get_vars_name:
+            vars = tf.contrib.framework.get_variables(scope)
+            return x, vars
+        else:
+            return x

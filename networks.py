@@ -286,3 +286,166 @@ class ResNet34:
         self.fc6 = m4_linear(x, 1000, active_function=None, norm=None, get_vars_name=False,
                              is_trainable=self.is_train, stddev=0.02, name='fc6')
         return self.fc6
+
+
+class ResNet50:
+    def __init__(self,cfg):
+        self.is_train = cfg.is_train
+
+    def build_model(self, x):
+        '''
+        :param x:
+        :return:
+        '''
+        residual_list = [3, 4, 6, 3]
+        x = m4_conv_layers(x, 64, k_h=7, k_w=7, s_h=2, s_w=2,
+                                      padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                                      is_trainable=self.is_train, stddev=0.02, name='conv1_1')
+        x = m4_max_pool(x, ks=3, stride=2, padding='SAME', name='pool1')
+
+        for i in range(residual_list[0]):
+            x = m4_bottle_resblock(x, 64, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=False,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock2_' + str(i))
+
+        for i in range(residual_list[1]):
+            if i==0:
+                is_downSample = True
+            else:
+                is_downSample = False
+            x = m4_bottle_resblock(x, 128, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=is_downSample,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock3_' + str(i))
+
+        for i in range(residual_list[2]):
+            if i==0:
+                is_downSample = True
+            else:
+                is_downSample = False
+            x = m4_bottle_resblock(x, 256, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=is_downSample,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock4_' + str(i))
+
+        for i in range(residual_list[3]):
+            if i==0:
+                is_downSample = True
+            else:
+                is_downSample = False
+            x = m4_bottle_resblock(x, 512, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=is_downSample,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock5_' + str(i))
+
+        x = m4_average_pool(x, ks=7, stride=7, padding='SAME', name='average_pool')
+        _, w, h, nc = x.get_shape().as_list()
+        x = tf.reshape(x, [-1, w * h * nc])
+        self.fc6 = m4_linear(x, 1000, active_function=None, norm=None, get_vars_name=False,
+                             is_trainable=self.is_train, stddev=0.02, name='fc6')
+        return self.fc6
+
+class ResNet101:
+    def __init__(self,cfg):
+        self.is_train = cfg.is_train
+
+    def build_model(self, x):
+        '''
+        :param x:
+        :return:
+        '''
+        residual_list = [3, 4, 23, 3]
+        x = m4_conv_layers(x, 64, k_h=7, k_w=7, s_h=2, s_w=2,
+                                      padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                                      is_trainable=self.is_train, stddev=0.02, name='conv1_1')
+        x = m4_max_pool(x, ks=3, stride=2, padding='SAME', name='pool1')
+
+        for i in range(residual_list[0]):
+            x = m4_bottle_resblock(x, 64, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=False,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock2_' + str(i))
+
+        for i in range(residual_list[1]):
+            if i==0:
+                is_downSample = True
+            else:
+                is_downSample = False
+            x = m4_bottle_resblock(x, 128, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=is_downSample,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock3_' + str(i))
+
+        for i in range(residual_list[2]):
+            if i==0:
+                is_downSample = True
+            else:
+                is_downSample = False
+            x = m4_bottle_resblock(x, 256, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=is_downSample,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock4_' + str(i))
+
+        for i in range(residual_list[3]):
+            if i==0:
+                is_downSample = True
+            else:
+                is_downSample = False
+            x = m4_bottle_resblock(x, 512, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=is_downSample,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock5_' + str(i))
+
+        x = m4_average_pool(x, ks=7, stride=7, padding='SAME', name='average_pool')
+        _, w, h, nc = x.get_shape().as_list()
+        x = tf.reshape(x, [-1, w * h * nc])
+        self.fc6 = m4_linear(x, 1000, active_function=None, norm=None, get_vars_name=False,
+                             is_trainable=self.is_train, stddev=0.02, name='fc6')
+        return self.fc6
+
+class ResNet152:
+    def __init__(self,cfg):
+        self.is_train = cfg.is_train
+
+    def build_model(self, x):
+        '''
+        :param x:
+        :return:
+        '''
+        residual_list = [3, 8, 36, 3]
+        x = m4_conv_layers(x, 64, k_h=7, k_w=7, s_h=2, s_w=2,
+                                      padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                                      is_trainable=self.is_train, stddev=0.02, name='conv1_1')
+        x = m4_max_pool(x, ks=3, stride=2, padding='SAME', name='pool1')
+
+        for i in range(residual_list[0]):
+            x = m4_bottle_resblock(x, 64, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=False,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock2_' + str(i))
+
+        for i in range(residual_list[1]):
+            if i==0:
+                is_downSample = True
+            else:
+                is_downSample = False
+            x = m4_bottle_resblock(x, 128, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=is_downSample,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock3_' + str(i))
+
+        for i in range(residual_list[2]):
+            if i==0:
+                is_downSample = True
+            else:
+                is_downSample = False
+            x = m4_bottle_resblock(x, 256, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=is_downSample,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock4_' + str(i))
+
+        for i in range(residual_list[3]):
+            if i==0:
+                is_downSample = True
+            else:
+                is_downSample = False
+            x = m4_bottle_resblock(x, 512, k_h=3, k_w=3, s_h=1, s_w=1,is_downsample=is_downSample,
+                        padding="SAME", get_vars_name=False, active_func='relu', norm='batch_norm',
+                        is_trainable=self.is_train, stddev=0.02, name='bottle_resblock5_' + str(i))
+
+        x = m4_average_pool(x, ks=7, stride=7, padding='SAME', name='average_pool')
+        _, w, h, nc = x.get_shape().as_list()
+        x = tf.reshape(x, [-1, w * h * nc])
+        self.fc6 = m4_linear(x, 1000, active_function=None, norm=None, get_vars_name=False,
+                             is_trainable=self.is_train, stddev=0.02, name='fc6')
+        return self.fc6

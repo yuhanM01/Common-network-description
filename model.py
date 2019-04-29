@@ -21,9 +21,9 @@ if __name__ == '__main__':
     with tf.Session(config=config) as sess:
 
 
-        m4_ResNet34 = ResNet34(cfg)
-        with tf.variable_scope('ResNet34'):
-            m4_ResNet34.build_model(images)
+        m4_ResNet152 = ResNet152(cfg)
+        with tf.variable_scope('ResNet152'):
+            m4_ResNet152.build_model(images)
         tf.global_variables_initializer().run()
         writer = tf.summary.FileWriter('{}/{}'.format(cfg.log_dir, time.strftime("%Y-%m-%d %H:%M:%S",
                                                                             time.localtime(time.time()))),
