@@ -5,20 +5,20 @@ def m4_leak_relu(x, leak=0.2):
     return tf.maximum(x, leak * x, name='leak_relu')
 
 def m4_batch_norm(input_, is_trainable):
-    try:
-        output = tf.contrib.layers.batch_norm(input_, decay=0.9,
-                                              updates_collections=None,
-                                              epsilon=1e-5,
-                                              scale=True,
-                                              is_training=is_trainable)
-    except:
-        mean, variance = tf.nn.moments(input_, axes=[0, 1, 2])
-        _, _, _, nc = input_.get_shape().as_list()
-        beta = tf.get_variable('beta', [nc], tf.float32,
-                               initializer=tf.constant_initializer(0.0, tf.float32))  # [out_channels]
-        gamma = tf.get_variable('gamma', [nc], tf.float32,
-                                initializer=tf.constant_initializer(1.0, tf.float32))
-        output = tf.nn.batch_normalization(input_, mean, variance, beta, gamma, 1e-5)
+    # try:
+    output = tf.contrib.layers.batch_norm(input_, decay=0.9,
+                                          updates_collections=None,
+                                          epsilon=1e-5,
+                                          scale=True,
+                                          is_training=is_trainable)
+    # except:
+    #     mean, variance = tf.nn.moments(input_, axes=[0, 1, 2])
+    #     _, _, _, nc = input_.get_shape().as_list()
+    #     beta = tf.get_variable('beta', [nc], tf.float32,
+    #                            initializer=tf.constant_initializer(0.0, tf.float32))  # [out_channels]
+    #     gamma = tf.get_variable('gamma', [nc], tf.float32,
+    #                             initializer=tf.constant_initializer(1.0, tf.float32))
+    #     output = tf.nn.batch_normalization(input_, mean, variance, beta, gamma, 1e-5)
     return output
 
 def m4_norm_func(input_, is_trainable, name):
@@ -86,7 +86,7 @@ def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsampl
             x = m4_conv_layers(input_, fiters, k_h=k_h, k_w=k_w, s_h=2, s_w=2,
                                padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
                                is_trainable=is_trainable, stddev=0.02, name='conv_1')
-            x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=1, s_w=1,
+            x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
                                padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
                                is_trainable=is_trainable, stddev=0.02, name='conv_2')
             input_ = m4_conv_layers(input_, fiters, k_h=1, k_w=1, s_h=2, s_w=2,
