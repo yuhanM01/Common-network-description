@@ -1,24 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0aaf025c-ad17-4ae3-8fc8-b86a8b4bb92c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/networks.py" beforeDir="false" afterPath="$PROJECT_DIR$/networks.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ops.py" beforeDir="false" afterPath="$PROJECT_DIR$/ops.py" afterDir="false" />
-    </list>
+    <list default="true" id="0aaf025c-ad17-4ae3-8fc8-b86a8b4bb92c" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-763634358">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="md" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Markdown" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="md" value="34" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Markdown" value="34" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/networks.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-730">
-              <caret line="397" lean-forward="true" selection-start-line="397" selection-end-line="397" />
+            <state relative-caret-position="7505">
+              <caret line="397" selection-start-line="397" selection-end-line="397" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -29,7 +55,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ops.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
+            <state relative-caret-position="2375">
               <caret line="126" column="54" selection-start-line="126" selection-start-column="54" selection-end-line="126" selection-end-column="54" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -38,14 +64,26 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="436">
-              <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="464">
+              <caret line="31" selection-start-line="31" selection-end-line="31" />
               <folding>
                 <element signature="e#0#64#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor>
+                <caret column="27" selection-start-column="27" selection-end-column="27" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -73,6 +111,7 @@
         <option value="$PROJECT_DIR$/ops.py" />
         <option value="$PROJECT_DIR$/networks.py" />
         <option value="$PROJECT_DIR$/model.py" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -92,8 +131,8 @@
         <subPane>
           <expand>
             <path>
-              <item name="networks" type="b2602c69:ProjectViewProjectNode" />
-              <item name="networks" type="462c0819:PsiDirectoryNode" />
+              <item name="Common-network-description" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Common-network-description" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -162,6 +201,10 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.model" />
+      <item itemvalue="Python.networks" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.model" />
@@ -193,8 +236,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24972737" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -205,13 +249,16 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32908705" />
       <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.3312102" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.33084312" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -263,13 +310,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-219551944/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="538" column="4" selection-start-line="538" selection-start-column="4" selection-end-line="538" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-219551944/builtins.py" />
     <entry file="file://$USER_HOME$/anaconda3/lib/python3.6/site-packages/tensorflow/python/ops/nn_impl.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-447">
@@ -286,8 +327,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/networks.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-730">
-          <caret line="397" lean-forward="true" selection-start-line="397" selection-end-line="397" />
+        <state relative-caret-position="7505">
+          <caret line="397" selection-start-line="397" selection-end-line="397" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
@@ -296,7 +337,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ops.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
+        <state relative-caret-position="2375">
           <caret line="126" column="54" selection-start-line="126" selection-start-column="54" selection-end-line="126" selection-end-column="54" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
@@ -306,11 +347,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="436">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="464">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
           <folding>
             <element signature="e#0#64#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor>
+            <caret column="27" selection-start-column="27" selection-end-column="27" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
