@@ -19,8 +19,6 @@ if __name__ == '__main__':
     config = tf.ConfigProto(log_device_placement=True, allow_soft_placement=True)
     config.gpu_options.allow_growth = True
     with tf.Session(config=config) as sess:
-
-
         m4_ResNet152 = ResNet152(cfg)
         with tf.variable_scope('ResNet152'):
             m4_ResNet152.build_model(images)
