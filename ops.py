@@ -81,7 +81,7 @@ def m4_conv_layers(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
     :param get_vars_name: bool:True of False
     :param active_func: str: 激活函数的名称
                         注意：不用激活函数时设置成None
-    :param norm: norm函数的名称
+    :param norm: str: norm函数的名称
                  注意：不用norm时，设置成None
     :param is_trainable: bool: True or False, norm防过拟合时需要
     :param stddev: 初始化权重的标准差
@@ -164,26 +164,38 @@ def m4_linear(input_, output, active_function=None, norm=None, get_vars_name=Fal
 def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsample=False,
                    padding = "SAME", get_vars_name=False, active_func=None,norm=None,
                    is_trainable=True, stddev = 0.02, name = 'resblock'):
+
     '''
-    Introduction:
-    :param input_:
-    :param fiters:
-    :param k_h:
-    :param k_w:
-    :param s_h:
-    :param s_w:
-    :param is_downsample:
-    :param padding:
-    :param get_vars_name:
-    :param active_func:
-    :param norm:
-    :param is_trainable:
-    :param stddev:
-    :param name:
-    :return:
+    Introduction: 用于 “ResNet18” 和 “ResNet34” 的卷积模块. 具体的看resnet网络的介绍
+    :param input_: a tensor
+    :param fiters: 卷积核的个数
+    :param k_h: 卷积核的高度
+                注意：根据resnet卷积模块的要求，当is_downsample为true时，有的卷积层为起作用
+                对应：resnet的定义看
+    :param k_w: 卷积核的宽度
+                注意：根据resnet卷积模块的要求，当is_downsample为true时，有的卷积层为起作用
+                对应：resnet的定义看
+    :param s_h: 高度方向的步长
+                注意：根据resnet卷积模块的要求，当is_downsample为true时，有的卷积层为起作用
+                对应：resnet的定义看
+    :param s_w: 宽度方向的步长
+                注意：根据resnet卷积模块的要求，当is_downsample为true时，有的卷积层为起作用
+                对应：resnet的定义看
+    :param is_downsample: bool: True of False, 图像尺寸减小
+    :param padding: 'SANE': 卷积后图像的长宽w=h= w/s
+                    'VALID':卷积后图像的长宽w=h= (w-f+1)/s
+    :param get_vars_name: bool:True of False
+    :param active_func: str: 激活函数的名称
+                        注意：不用激活函数时设置成None
+    :param norm: str: norm函数的名称
+                 注意：不用norm时，设置成None
+    :param is_trainable: bool: True or False, norm防过拟合时需要
+    :param stddev: 初始化权重的标准差
+    :param name: str: 卷积模块的名称
+    :return: 当get_vars_name为False， 返回一个tensor；
+                            为True， 返回一个tensor和该层中变量列表
     '''
     with tf.variable_scope(name) as scope:
-
         if is_downsample:
             x = m4_conv_layers(input_, fiters, k_h=k_h, k_w=k_w, s_h=2, s_w=2,
                                padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
@@ -215,22 +227,34 @@ def m4_bottle_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_do
                    padding = "SAME", get_vars_name=False, active_func=None,norm=None,
                    is_trainable=True, stddev = 0.02, name = 'm4_bottle_resblock'):
     '''
-    Introduction:
-    :param input_:
-    :param fiters:
-    :param k_h:
-    :param k_w:
-    :param s_h:
-    :param s_w:
-    :param is_downsample:
-    :param padding:
-    :param get_vars_name:
-    :param active_func:
-    :param norm:
-    :param is_trainable:
-    :param stddev:
-    :param name:
-    :return:
+    Introduction: 用于 “ResNet50”,， “ResNet101” 和 “ResNet152” 的卷积模块
+    :param input_: a tensor
+    :param fiters: 卷积核的个数
+    :param k_h: 卷积核的高度
+                注意：根据resnet卷积模块的要求，当is_downsample为true时，有的卷积层为起作用
+                对应：resnet的定义看
+    :param k_w: 卷积核的宽度
+                注意：根据resnet卷积模块的要求，当is_downsample为true时，有的卷积层为起作用
+                对应：resnet的定义看
+    :param s_h: 高度方向的步长
+                注意：根据resnet卷积模块的要求，当is_downsample为true时，有的卷积层为起作用
+                对应：resnet的定义看
+    :param s_w: 宽度方向的步长
+                注意：根据resnet卷积模块的要求，当is_downsample为true时，有的卷积层为起作用
+                对应：resnet的定义看
+    :param is_downsample: bool: True of False, 图像尺寸减小
+    :param padding: 'SANE': 卷积后图像的长宽w=h= w/s
+                    'VALID':卷积后图像的长宽w=h= (w-f+1)/s
+    :param get_vars_name: bool:True of False
+    :param active_func: str: 激活函数的名称
+                        注意：不用激活函数时设置成None
+    :param norm: str: norm函数的名称
+                 注意：不用norm时，设置成None
+    :param is_trainable: bool: True or False, norm防过拟合时需要
+    :param stddev: 初始化权重的标准差
+    :param name: str: 卷积模块的名称
+    :return: 当get_vars_name为False， 返回一个tensor；
+                            为True， 返回一个tensor和该层中变量列表
     '''
     with tf.variable_scope(name) as scope:
 
