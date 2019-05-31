@@ -15,5 +15,11 @@ python model.py --log_dir='你存储tensorboard文件的路径'
 ````
 会在指定的路径下生成一个以***系统当前时间命名的文件夹***
 
+## 2. 网络结构：Vgg，ResNet
+### 1. Vgg16  
+Vgg16类位于networks.py文件中， 定义的网络结构如下图所示：  
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/)
+
+
 
 
