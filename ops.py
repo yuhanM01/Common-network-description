@@ -2,9 +2,21 @@ import tensorflow as tf
 import numpy as np
 
 def m4_leak_relu(x, leak=0.2):
+    '''
+    Introdction: leak_relu active function
+    :param x: a tensor
+    :param leak:
+    :return: a tensor
+    '''
     return tf.maximum(x, leak * x, name='leak_relu')
 
 def m4_batch_norm(input_, is_trainable):
+    '''
+    Introduction: batch normalizaiton function
+    :param input_: a tensor
+    :param is_trainable: bool: true or false
+    :return: a tensor
+    '''
     # try:
     output = tf.contrib.layers.batch_norm(input_, decay=0.9,
                                           updates_collections=None,
@@ -22,6 +34,14 @@ def m4_batch_norm(input_, is_trainable):
     return output
 
 def m4_norm_func(input_, is_trainable, name):
+    '''
+    Introduction:可以实现多种norm防过拟合函数，
+    注意：不用norm时，设置成None
+    :param input_: a tensor
+    :param is_trainable: bool: true or false
+    :param name: norm函数的名称，目前只能是"batch_norm", 因为目前只有这个防过拟合函数
+    :return:
+    '''
     if name==None:
         output_ = input_
     elif name=='batch_norm':
@@ -29,6 +49,13 @@ def m4_norm_func(input_, is_trainable, name):
     return output_
 
 def m4_active_function(input_, active_function='relu'):
+    '''
+    Introduction:可以实现多种激活函数，目前只有'relu'和'leak_relu'，
+    注意：不用激活函数时设置成None
+    :param input_: a tensor
+    :param active_function: str: 目前只能是'relu'和'leak_relu'
+    :return: a tensor
+    '''
     if active_function==None:
         active = input_
     elif active_function == 'relu':
@@ -40,6 +67,28 @@ def m4_active_function(input_, active_function='relu'):
 def m4_conv_layers(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
                    padding = "SAME", get_vars_name=False, active_func=None,norm=None,
                    is_trainable=True, stddev = 0.02, name = 'm4_conv'):
+    '''
+    Introduction:实现一个卷积模块，w * x + bias, 同时后面可以选择是否norm和active
+                注意： norm在active之前
+    :param input_: a tensor
+    :param fiters: 卷积核的个数
+    :param k_h: 卷积核的高度
+    :param k_w: 卷积核的宽度
+    :param s_h: 高度方向的步长
+    :param s_w: 宽度方向的步长
+    :param padding: 'SANE': 卷积后图像的长宽w=h= w/s
+                    'VALID':卷积后图像的长宽w=h= (w-f+1)/s
+    :param get_vars_name: bool:True of False
+    :param active_func: str: 激活函数的名称
+                        注意：不用激活函数时设置成None
+    :param norm: norm函数的名称
+                 注意：不用norm时，设置成None
+    :param is_trainable: bool: True or False, norm防过拟合时需要
+    :param stddev: 初始化权重的标准差
+    :param name: str: 卷积模块的名称
+    :return: 当get_vars_name为False， 返回一个tensor；
+                            为True， 返回一个tensor和该层中变量列表
+    '''
     with tf.variable_scope(name) as scope:
         batch, heigt, width, nc = input_.get_shape().as_list()
         w = tf.get_variable(name='filter', shape=[k_h, k_w, nc, fiters],
@@ -57,13 +106,48 @@ def m4_conv_layers(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
 
 
 def m4_max_pool(input_, ks=2, stride=2, padding='SAME', name='max_pool'):
+    '''
+    Introduction:实现 最大池化层
+    :param input_:a tensor
+    :param ks:池化核大小，默认2x2
+    :param stride:池化，步长
+    :param padding: "SAME"
+    :param name: 池化层名称
+    :return: a tensor
+    '''
+
     return tf.nn.max_pool(input_, ksize=[1, ks, ks, 1], strides=[1, stride, stride, 1], padding=padding, name=name)
 
 def m4_average_pool(input_, ks=2, stride=2, padding='SAME', name='average_pool'):
+    '''
+    Introduction:实现 平均池化层
+    :param input_:a tensor
+    :param ks:池化核大小，默认2x2
+    :param stride:池化，步长
+    :param padding: "SAME"
+    :param name: 池化层名称
+    :return: a tensor
+    '''
     return tf.nn.avg_pool(input_, ksize=[1, ks, ks, 1], strides=[1, stride, stride, 1], padding=padding, name=name)
 
 def m4_linear(input_, output, active_function=None, norm=None, get_vars_name=False, is_trainable=True,
               stddev=0.02, name='fc'):
+    '''
+    Introduction:实现一个全连接模块， w * x + bias, 同时后面可以选择是否norm和active
+                注意： norm在active之前
+    :param input_: a tensor
+    :param output: 期望输出全连接层的节点数
+    :param active_function: str: 激活函数的名称
+                            注意：不用激活函数时设置成None
+    :param norm: norm函数的名称
+                 注意：不用norm时，设置成None
+    :param get_vars_name: bool:True of False
+    :param is_trainable: bool: True or False, norm防过拟合时需要
+    :param stddev: 初始化权重的标准差
+    :param name: str: 该模块的名称
+    :return: 当get_vars_name为False， 返回一个tensor；
+                            为True， 返回一个tensor和该层中变量列表
+    '''
     with tf.variable_scope(name) as scope:
         input_shape = input_.get_shape().as_list()
         w = tf.get_variable('w', [input_shape[-1], output], initializer=tf.random_normal_initializer(stddev=stddev))
@@ -80,6 +164,24 @@ def m4_linear(input_, output, active_function=None, norm=None, get_vars_name=Fal
 def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsample=False,
                    padding = "SAME", get_vars_name=False, active_func=None,norm=None,
                    is_trainable=True, stddev = 0.02, name = 'resblock'):
+    '''
+    Introduction:
+    :param input_:
+    :param fiters:
+    :param k_h:
+    :param k_w:
+    :param s_h:
+    :param s_w:
+    :param is_downsample:
+    :param padding:
+    :param get_vars_name:
+    :param active_func:
+    :param norm:
+    :param is_trainable:
+    :param stddev:
+    :param name:
+    :return:
+    '''
     with tf.variable_scope(name) as scope:
 
         if is_downsample:
@@ -112,6 +214,24 @@ def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsampl
 def m4_bottle_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsample=False,
                    padding = "SAME", get_vars_name=False, active_func=None,norm=None,
                    is_trainable=True, stddev = 0.02, name = 'm4_bottle_resblock'):
+    '''
+    Introduction:
+    :param input_:
+    :param fiters:
+    :param k_h:
+    :param k_w:
+    :param s_h:
+    :param s_w:
+    :param is_downsample:
+    :param padding:
+    :param get_vars_name:
+    :param active_func:
+    :param norm:
+    :param is_trainable:
+    :param stddev:
+    :param name:
+    :return:
+    '''
     with tf.variable_scope(name) as scope:
 
         if is_downsample:
