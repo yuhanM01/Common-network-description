@@ -8,8 +8,9 @@ class Vgg16:
 
     def build_model(self, x):
         '''
+        Introduction: 搭建Vgg16网络，详见README中的Vgg16
         :param x: Input image
-        :return: output for plus softmax
+        :return: softmax之前的那个全连接层，即特征映射
         '''
         self.conv1_1 = m4_conv_layers(x, 64, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
                    padding = "SAME", get_vars_name=False, active_func='relu',norm=None,
@@ -91,8 +92,9 @@ class Vgg19:
 
     def build_model(self, x):
         '''
+        Introduction: 搭建Vgg19网络，详见README中的Vgg19
         :param x: Input image
-        :return: output for plus softmax
+        :return: softmax之前的那个全连接层，即特征映射
         '''
         self.conv1_1 = m4_conv_layers(x, 64, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
                    padding = "SAME", get_vars_name=False, active_func='relu',norm=None,
@@ -185,8 +187,9 @@ class ResNet18:
 
     def build_model(self, x):
         '''
-        :param x:
-        :return:
+        Introduction: 搭建ResNet18网络，详见README中的ResNet18
+        :param x:Input image
+        :return: softmax之前的那个全连接层，即特征映射
         '''
         residual_list = [2, 2, 2, 2]
         x = m4_conv_layers(x, 64, k_h=7, k_w=7, s_h=2, s_w=2,
@@ -239,8 +242,9 @@ class ResNet34:
 
     def build_model(self, x):
         '''
-        :param x:
-        :return:
+        Introduction: 搭建ResNet34网络，详见README中的ResNet34
+        :param x:Input image
+        :return: softmax之前的那个全连接层，即特征映射
         '''
         residual_list = [3, 4, 6, 3]
         x = m4_conv_layers(x, 64, k_h=7, k_w=7, s_h=2, s_w=2,
@@ -294,8 +298,9 @@ class ResNet50:
 
     def build_model(self, x):
         '''
-        :param x:
-        :return:
+        Introduction: 搭建ResNet50网络，详见README中的ResNet50
+        :param x:Input image
+        :return: softmax之前的那个全连接层，即特征映射
         '''
         residual_list = [3, 4, 6, 3]
         x = m4_conv_layers(x, 64, k_h=7, k_w=7, s_h=2, s_w=2,
@@ -348,8 +353,9 @@ class ResNet101:
 
     def build_model(self, x):
         '''
-        :param x:
-        :return:
+        Introduction: 搭建ResNet101网络，详见README中的ResNet101
+        :param x:Input image
+        :return: softmax之前的那个全连接层，即特征映射
         '''
         residual_list = [3, 4, 23, 3]
         x = m4_conv_layers(x, 64, k_h=7, k_w=7, s_h=2, s_w=2,
@@ -402,8 +408,9 @@ class ResNet152:
 
     def build_model(self, x):
         '''
-        :param x:
-        :return:
+        Introduction: 搭建ResNet152网络，详见README中的ResNet152
+        :param x:Input image
+        :return: softmax之前的那个全连接层，即特征映射
         '''
         residual_list = [3, 8, 36, 3]
         x = m4_conv_layers(x, 64, k_h=7, k_w=7, s_h=2, s_w=2,
