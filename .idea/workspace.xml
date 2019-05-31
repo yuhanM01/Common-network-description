@@ -32,13 +32,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="md" value="466" />
+          <entry key="md" value="478" />
           <entry key="py" value="1201" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Markdown" value="466" />
+          <entry key="Markdown" value="478" />
           <entry key="Python" value="1201" />
         </counts>
       </usages-collector>
@@ -86,8 +86,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="367">
-                <caret line="20" column="79" lean-forward="true" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
+              <first_editor relative-caret-position="462">
+                <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
               </first_editor>
               <second_editor />
             </state>
@@ -140,6 +140,11 @@
             <path>
               <item name="Common-network-description" type="b2602c69:ProjectViewProjectNode" />
               <item name="Common-network-description" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Common-network-description" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Common-network-description" type="462c0819:PsiDirectoryNode" />
+              <item name="pictures_of_network_structure" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -353,8 +358,8 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="367">
-            <caret line="20" column="79" lean-forward="true" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
+          <first_editor relative-caret-position="462">
+            <caret line="25" lean-forward="true" selection-start-line="25" selection-end-line="25" />
           </first_editor>
           <second_editor />
         </state>
