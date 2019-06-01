@@ -38,6 +38,14 @@ Vgg19与Vgg16大体相同，只是层次有所增加，见[层次结构表](http
 ![image](https://github.com/blueskyM01/Common-network-description/blob/master/ResNet_no_downsample.png)
 ![image](https://github.com/blueskyM01/Common-network-description/blob/master/ResNet_downsample.png)
 
-
+### 2.4 ResNet50
+#### 2.4.1 ResNet50类位于[networks.py](https://github.com/blueskyM01/Common-network-description/blob/master/networks.py)文件中的````ResNet50````， 定义的网络结构如下图所示：  
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/ResNet.png)
+#### 2.4.2 卷积层(与Vgg16,19中的相同，都是用的````conv_layer````)  
+#### 2.4.3 卷积模块(````m4_bottle_resblock````)  
+所谓的卷积模块就是用多个卷积层组合在一起，实现网络的一个功能块  
+函数位于[ops.py](https://github.com/blueskyM01/Common-network-description/blob/master/ops.py)中的````m4_bottle_resblock````  
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/bottle_resnet_no_downsample.png)
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/bottle_resnet_downsample.png)
 
 
