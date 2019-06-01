@@ -45,7 +45,7 @@ Vgg19与Vgg16大体相同，只是层次有所增加，见[层次结构表](http
 #### 2.4.3 卷积模块(````m4_bottle_resblock````)  
 所谓的卷积模块就是用多个卷积层组合在一起，实现网络的一个功能块  
 函数位于[ops.py](https://github.com/blueskyM01/Common-network-description/blob/master/ops.py)中的````m4_bottle_resblock````  
-![image](https://github.com/blueskyM01/Common-network-description/blob/master/bottle_resnet_no_downsample.png)
-![image](https://github.com/blueskyM01/Common-network-description/blob/master/bottle_resnet_downsample.png)
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/bottle_resblock_no_downsample.png)
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/bottle_resblock_downsample.png)
 
 
