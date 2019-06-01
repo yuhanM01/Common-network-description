@@ -18,9 +18,9 @@ python model.py --log_dir='你存储tensorboard文件的路径'
 ## 2. 网络结构：Vgg，ResNet
 ### 2.1 Vgg16  
 #### 2.1.1 Vgg16类位于[networks.py](https://github.com/blueskyM01/Common-network-description/blob/master/networks.py)文件中的````Vgg16````， 定义的网络结构如下图所示：  
-![image](https://github.com/blueskyM01/Common-network-description/tree/master/pictures_of_network_structure/vgg.png)  
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/vgg.png)  
 #### 2.1.2 卷积层(````conv_layer````)  
-![image](https://github.com/blueskyM01/Common-network-description/tree/master/pictures_of_network_structure/conv_layer.png)  
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/conv_layer.png)  
  函数位于[ops.py](https://github.com/blueskyM01/Common-network-description/blob/master/ops.py)中的````m4_conv_layers````
 #### 2.1.3 卷积模块  
 ***Vgg中没有专门设计卷积模块， 直接按照[层次结构表](https://github.com/blueskyM01/Common-network-description/blob/master/pictures_of_network_structure/vgg.png)用卷积层(````conv_layer````)依次搭建的***  
