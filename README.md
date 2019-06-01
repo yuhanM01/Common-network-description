@@ -23,13 +23,20 @@ python model.py --log_dir='你存储tensorboard文件的路径'
 ![image](https://github.com/blueskyM01/Common-network-description/blob/master/conv_layer.png)  
  函数位于[ops.py](https://github.com/blueskyM01/Common-network-description/blob/master/ops.py)中的````m4_conv_layers````
 #### 2.1.3 卷积模块  
-***Vgg中没有专门设计卷积模块， 直接按照[层次结构表](https://github.com/blueskyM01/Common-network-description/blob/master/pictures_of_network_structure/vgg.png)用卷积层(````conv_layer````)依次搭建的***  
+***Vgg中没有专门设计卷积模块， 直接按照[层次结构表](https://github.com/blueskyM01/Common-network-description/blob/master/vgg.png)用卷积层(````conv_layer````)依次搭建的***  
 #### 2.1.3 注意
 ***在送入softmax之前的那层没有激活函数***
 ### 2.2 Vgg19  
-Vgg19与Vgg16大体相同，只是层次有所增加，见[层次结构表](https://github.com/blueskyM01/Common-network-description/blob/master/pictures_of_network_structure/vgg.png)中的E列
-
-
+Vgg19与Vgg16大体相同，只是层次有所增加，见[层次结构表](https://github.com/blueskyM01/Common-network-description/blob/master/vgg.png)中的E列
+### 2.3 ResNet18
+#### 2.3.1 ResNet18类位于[networks.py](https://github.com/blueskyM01/Common-network-description/blob/master/networks.py)文件中的````ResNet18````， 定义的网络结构如下图所示：  
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/ResNet.png)
+#### 2.3.2 卷积层(与Vgg16,19中的相同，都是用的````conv_layer````)  
+#### 2.3.3 卷积模块(````m4_resblock````)  
+所谓的卷积模块就是用多个卷积层组合在一起，实现网络的一个功能块  
+函数位于[ops.py](https://github.com/blueskyM01/Common-network-description/blob/master/ops.py)中的````m4_resblock````  
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/ResNet_no_downsample.png)
+![image](https://github.com/blueskyM01/Common-network-description/blob/master/ResNet_downsample.png)
 
 
 
