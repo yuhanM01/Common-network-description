@@ -10,8 +10,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--log_dir', default='/home/yang/study/experiment_result/logs', type=str, help='log save dir')
+parser.add_argument('--log_dir', default='/home/yang/study/logs', type=str, help='log save dir')
 parser.add_argument('--is_train', default=False, type=bool, help='train?')
+parser.add_argument('--weight_decay', default=0.0005, type=float, help='weight decay')
 
 cfg = parser.parse_args()
 images = tf.placeholder(dtype=tf.float32, shape=[1, 224, 224, 3], name='x')

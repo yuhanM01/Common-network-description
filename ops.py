@@ -66,7 +66,7 @@ def m4_active_function(input_, active_function='relu'):
 
 def m4_conv_layers(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
                    padding = "SAME", get_vars_name=False, active_func=None,norm=None,
-                   is_trainable=True, stddev = 0.02, name = 'm4_conv'):
+                   is_trainable=True, stddev = 0.02, weight_decay=0.0005, name = 'm4_conv'):
     '''
     Introduction:实现一个卷积模块，w * x + bias, 同时后面可以选择是否norm和active
                 注意： norm在active之前
@@ -90,10 +90,11 @@ def m4_conv_layers(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1,
                             为True， 返回一个tensor和该层中变量列表
     '''
     with tf.variable_scope(name) as scope:
+        l2_reg = tf.contrib.layers.l2_regularizer(weight_decay)
         batch, heigt, width, nc = input_.get_shape().as_list()
-        w = tf.get_variable(name='filter', shape=[k_h, k_w, nc, fiters],
+        w = tf.get_variable(name='filter', shape=[k_h, k_w, nc, fiters], regularizer=l2_reg,
                             initializer=tf.truncated_normal_initializer(stddev=stddev))
-        bias = tf.get_variable(name='biases', shape=[fiters], initializer=tf.constant_initializer(0.0))
+        bias = tf.get_variable(name='biases', shape=[fiters], regularizer=l2_reg, initializer=tf.constant_initializer(0.0))
         output_ = tf.nn.conv2d(input_, w, strides=[1, s_h, s_w, 1], padding=padding) + bias
         output_ = m4_norm_func(output_, is_trainable, name=norm)
         output_ = m4_active_function(output_, active_function=active_func)
@@ -131,7 +132,7 @@ def m4_average_pool(input_, ks=2, stride=2, padding='SAME', name='average_pool')
     return tf.nn.avg_pool(input_, ksize=[1, ks, ks, 1], strides=[1, stride, stride, 1], padding=padding, name=name)
 
 def m4_linear(input_, output, active_function=None, norm=None, get_vars_name=False, is_trainable=True,
-              stddev=0.02, name='fc'):
+              stddev=0.02, weight_decay=0.0005, name='fc'):
     '''
     Introduction:实现一个全连接模块， w * x + bias, 同时后面可以选择是否norm和active
                 注意： norm在active之前
@@ -149,9 +150,10 @@ def m4_linear(input_, output, active_function=None, norm=None, get_vars_name=Fal
                             为True， 返回一个tensor和该层中变量列表
     '''
     with tf.variable_scope(name) as scope:
+        l2_reg = tf.contrib.layers.l2_regularizer(weight_decay)
         input_shape = input_.get_shape().as_list()
-        w = tf.get_variable('w', [input_shape[-1], output], initializer=tf.random_normal_initializer(stddev=stddev))
-        biases = tf.get_variable('biases', [output], initializer=tf.constant_initializer(0.0))
+        w = tf.get_variable('w', [input_shape[-1], output], regularizer=l2_reg, initializer=tf.random_normal_initializer(stddev=stddev))
+        biases = tf.get_variable('biases', [output], regularizer=l2_reg, initializer=tf.constant_initializer(0.0))
         conn = tf.matmul(input_, w) + biases
         output_ = m4_norm_func(conn, is_trainable, name=norm)
         output_ = m4_active_function(output_, active_function=active_function)
@@ -163,7 +165,7 @@ def m4_linear(input_, output, active_function=None, norm=None, get_vars_name=Fal
 
 def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsample=False,
                    padding = "SAME", get_vars_name=False, active_func=None,norm=None,
-                   is_trainable=True, stddev = 0.02, name = 'resblock'):
+                   is_trainable=True, stddev = 0.02, weight_decay=0.0005, name = 'resblock'):
 
     '''
     Introduction: 用于 “ResNet18” 和 “ResNet34” 的卷积模块. 具体的看resnet网络的介绍
@@ -199,21 +201,21 @@ def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsampl
         if is_downsample:
             x = m4_conv_layers(input_, fiters, k_h=k_h, k_w=k_w, s_h=2, s_w=2,
                                padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='conv_1')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_1')
             x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
                                padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='conv_2')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_2')
             input_ = m4_conv_layers(input_, fiters, k_h=1, k_w=1, s_h=2, s_w=2,
                                padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='main_branch_downsample')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='main_branch_downsample')
 
         else:
             x = m4_conv_layers(input_, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
                        padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
-                       is_trainable=is_trainable, stddev=0.02, name='conv_1')
+                       is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_1')
             x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
                                padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='conv_2')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_2')
         x = x + input_
 
         x = m4_active_function(x, active_function=active_func)
@@ -225,7 +227,7 @@ def m4_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsampl
 
 def m4_bottle_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_downsample=False,
                    padding = "SAME", get_vars_name=False, active_func=None,norm=None,
-                   is_trainable=True, stddev = 0.02, name = 'm4_bottle_resblock'):
+                   is_trainable=True, stddev = 0.02, weight_decay=0.0005, name='m4_bottle_resblock'):
     '''
     Introduction: 用于 “ResNet50”,， “ResNet101” 和 “ResNet152” 的卷积模块
     :param input_: a tensor
@@ -261,30 +263,30 @@ def m4_bottle_resblock(input_, fiters, k_h = 3, k_w = 3, s_h = 1, s_w = 1, is_do
         if is_downsample:
             x = m4_conv_layers(input_, fiters, k_h=1, k_w=1, s_h=2, s_w=2,
                                padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='conv_1')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_1')
             x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
                                padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='conv_2')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_2')
             x = m4_conv_layers(x, fiters * 4, k_h=1, k_w=1, s_h=s_h, s_w=s_w,
                                padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='conv_3')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_3')
             input_ = m4_conv_layers(input_, fiters * 4, k_h=1, k_w=1, s_h=2, s_w=2,
                                padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='main_branch_downsample')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='main_branch_downsample')
 
         else:
             x = m4_conv_layers(input_, fiters, k_h=1, k_w=1, s_h=s_h, s_w=s_w,
                        padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
-                       is_trainable=is_trainable, stddev=0.02, name='conv_1')
+                       is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_1')
             x = m4_conv_layers(x, fiters, k_h=k_h, k_w=k_w, s_h=s_h, s_w=s_w,
                                padding=padding, get_vars_name=get_vars_name, active_func=active_func, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='conv_2')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_2')
             x = m4_conv_layers(x, fiters * 4, k_h=1, k_w=1, s_h=s_h, s_w=s_w,
                                padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
-                               is_trainable=is_trainable, stddev=0.02, name='conv_3')
+                               is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='conv_3')
             input_ = m4_conv_layers(input_, fiters * 4, k_h=1, k_w=1, s_h=1, s_w=1,
                                     padding=padding, get_vars_name=get_vars_name, active_func=None, norm=norm,
-                                    is_trainable=is_trainable, stddev=0.02, name='main_branch_keepdim')
+                                    is_trainable=is_trainable, stddev=0.02, weight_decay=weight_decay, name='main_branch_keepdim')
         x = x + input_
 
         x = m4_active_function(x, active_function=active_func)
